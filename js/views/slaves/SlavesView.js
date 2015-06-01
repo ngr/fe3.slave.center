@@ -16,13 +16,12 @@ define([
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
       this.$el.html(slavesTemplate);
 
-      var slave0 = new SlaveModel({title: 'Cross Domain', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/cross-domain'}); 
-      var slave1 = new SlaveModel({title:'Infinite Scroll', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/infinite-scroll'}); 
+      var slave0 = new SlaveModel({name: 'Cross Domain', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/cross-domain'}); 
+      var slave1 = new SlaveModel({name:'Infinite Scroll', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/infinite-scroll'}); 
 
       var aSlaves = [slave0, 
                       slave1];
-
-      var slavesCollection = new SlavesCollection(aSlaves);  
+      var slavesCollection = new SlavesCollection();
       var slavesListView = new SlavesListView({ collection: slavesCollection}); 
       
       slavesListView.render(); 

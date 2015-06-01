@@ -1,5 +1,5 @@
 <ul>
   <% _.each(slaves, function(slave){ %>
-   <li><a href='<%= slave.get("url") %>'><%= slave.get("title") %></a></li> 
+   <li><a href='/slave/<%= slave.get("id") %>'><%= slave.get("name") %></a></li> 
   <% }); %>
 </ul>

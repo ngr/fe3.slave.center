@@ -9,7 +9,7 @@ define([
   'text!templates/slaves/slavesListTemplate.html'
 
 ], function($, _, Backbone, SlaveModel, SlavesCollection, slavesListTemplate){
-  var SlaveListView = Backbone.View.extend({
+  var SlavesListView = Backbone.View.extend({
     el: $("#slaves-list"),
 
     render: function(){
@@ -18,10 +18,11 @@ define([
         slaves: this.collection.models,
         _: _ 
       };
+      console.log("underscored data");
       console.log(data); 
       var compiledTemplate = _.template( slavesListTemplate, data );
       $("#slaves-list").html( compiledTemplate ); 
     }
   });
-  return SlaveListView;
+  return SlavesListView;
 });
