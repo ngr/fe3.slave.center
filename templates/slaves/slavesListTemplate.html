@@ -1,5 +1,18 @@
-<ul>
+<div class="container">
   <% _.each(slaves, function(slave){ %>
-   <li><a href='/slave/<%= slave.get("id") %>'><%= slave.get("name") %></a></li> 
+    <div class="row">
+        
+        <div class="col-xs-4"><h3><a href='/slave/<%= slave.get("id") %>'><%= slave.get("name") %></a><h3></div> 
+        <div class="col-xs-1">
+            <% if (slave.get("sex") == "m") { %><i class="fa fa-male"></i>
+            <% } else { %><i class="fa fa-female"></i><% } %>
+        </div>
+        <div class="col-xs-1"><%= slave.get("age") %></div>
+        <div class="col-xs-2"><%= slave.get("exp") %></div>
+        <div class="col-xs-1">
+            <% if (slave.get("free")) { %><i class="fa fa-bed"></i>
+            <% } else { %><i class="fa fa-suitcase"></i><% } %>
+        </div>
+    </div> 
   <% }); %>
-</ul>
+</div>
