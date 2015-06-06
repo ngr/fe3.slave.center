@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/sidebar/SidebarView',
+  'views/etc/SidebarView',
   'text!templates/home/homeTemplate.html'
 ], function($, _, Backbone, SidebarView, homeTemplate){
 

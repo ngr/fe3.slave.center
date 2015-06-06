@@ -29,14 +29,28 @@
       <ul class="nav">
         <li><a href="#" >Home</a></li>
         <li ><a href="#/slaves" >Slaves</a></li>
+        <li ><a href="#/login" >Login</a></li>
+        <li ><a href="#/logout" >Logout</a></li>
       </ul>
     </div>
   </div>
 
 
   <div id="page">
-    Loading....
+    <!--[if IE]>
+        <object classid="clsid:25336920-03F9-11CF-8FD0-00AA00686F13" data="/templates/etc/loadingTemplate.html">
+        <p>backup content</p>
+        </object>
+        <![endif]-->
+
+        <!--[if !IE]> <-->
+        <object type="text/html" data="/templates/etc/loadingTemplate.html">
+        <p>Loading...</p>
+        </object>
+    <!--> <![endif]-->
   </div>
+ <div class="sidebar"></div>
+
   <div id="footer"></div>
 </div> 
 

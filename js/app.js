@@ -17,11 +17,8 @@ define([
      options.url = 'http://api.slave.center' + options.url;
      options.dataType = 'json';
      options.beforeSend = function( xhr ) {
-            xhr.setRequestHeader( "Authorization", "Bearer " + 'rNtlHRGLnXL8giriVx6ZrIqdsOUwL8' );
+            xhr.setRequestHeader( "Authorization", "Bearer " + localStorage.getItem('access_token') );
         };
-     
-     options.token = 'rNtlHRGLnXL8giriVx6ZrIqdsOUwL8';
-    // options.url = 'http://cross-domain.nodejitsu.com' + options.url;
   });
 
   return { 
