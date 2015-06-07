@@ -1,18 +1,37 @@
-<div class="container">
+<table class="table table-striped">
+<tbody>
   <% _.each(slaves, function(slave){ %>
-    <div class="row">
+    <tr>
         
-        <div class="col-xs-4"><h3><a href='/slave/<%= slave.get("id") %>'><%= slave.get("name") %></a><h3></div> 
-        <div class="col-xs-1">
-            <% if (slave.get("sex") == "m") { %><i class="fa fa-male"></i>
-            <% } else { %><i class="fa fa-female"></i><% } %>
-        </div>
-        <div class="col-xs-1"><%= slave.get("age") %></div>
-        <div class="col-xs-2"><%= slave.get("exp") %></div>
-        <div class="col-xs-1">
-            <% if (slave.get("free")) { %><i class="fa fa-bed"></i>
-            <% } else { %><i class="fa fa-suitcase"></i><% } %>
-        </div>
-    </div> 
+        <td><a href="#<%= slave.get("id") %>"><div><h3><%= slave.get("name") %><h3></div></a></td>
+        <td>
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-2">
+                    <% if (slave.get("sex") == "m") { %><i class="fa fa-male"></i>
+                    <% } else { %><i class="fa fa-female"></i><% } %>
+                </div>
+                <div class="col-xs-2"><%= slave.get("age") %></div>
+                <div class="col-xs-4"><%= slave.get("exp") %></div>
+                <div class="col-xs-2">
+                    <% if (slave.get("free")) { %><i class="fa fa-bed"></i>
+                    <% } else { %><i class="fa fa-suitcase"></i><% } %>
+                </div>
+              </div>
+              <div id="slave-actions-for-<%= slave.get("id") %>" class="row slave-actions">
+                  <% if (slave.get("free")) { %>
+                  <div class="col-xs-4"><input class="btn btn-success btn-sm" type="button" value="Employ"></div>
+                  <% } else { %>
+                  <div class="col-xs-4"><input class="btn btn-danger btn-sm" type="button" value="Cancel"></div>
+                  <% } %>
+                  <div class="col-xs-2">&nbsp;</div>
+                  <div class="col-xs-4"><input class="btn btn-primary btn-sm" type="button" value="Torture"></div>
+              </div>
+              <div id="slave-employ-form-div-<%= slave.get("id") %>" class="row slave-employ-form-div"></div>
+              
+            </div>
+        </td>
+    </tr>
   <% }); %>
-</div>
+</tbody>
+</table>

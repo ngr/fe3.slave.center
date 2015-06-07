@@ -20,7 +20,17 @@ define([
       '*actions': 'defaultAction'
     }
   });
-  
+
+  // Clear notifications on change of active page.
+    Backbone.history.on("all", function (route, router) {
+        $('#notification-error-text').html("");
+        $('#notification-error').hide();
+        $('#notification-warning-text').html("");
+        $('#notification-warning').hide();
+        $('#notification-success-text').html("");
+        $('#notification-success').hide();
+      });
+    
   var initialize = function(){
 
     var app_router = new AppRouter;

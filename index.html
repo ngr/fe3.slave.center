@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
@@ -14,29 +14,51 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	<link rel="stylesheet" href="css/styles.css">
-
+	<script data-main="js/main" src="js/libs/jquery/jquery-min.js"></script>
 	<script data-main="js/main" src="js/libs/require/require.js"></script>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!-- ##### ##### ##### ##### ##### -->    
+    <!-- ##### ### BOOTSTRAP ### ##### -->
+    <!-- ##### ##### ##### ##### ##### -->    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/core/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="css/core/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="js/libs/bootstrap/bootstrap.min.js"></script>
+    <!-- ##### END OF BOOTSTRAP ##### -->    
 </head>
 <body>
+<div class="container-fluid">
+<nav class="navbar navbar-default navbar-static-top">
+  <ul class="nav navbar-nav">
+    <li><a href="/#" >Dashboard</a></li>
+    <li><a href="/#/slaves">Slaves</a></li>
+    <li><a href="/#/login">Login</a></li>
+    <li><a href="/#/logout">Logout</a></li>
+  </ul>
+</nav>
 
-<div id="container">
-  <div id="logo">
-    <h1>Module JS test</h1>
-  </div>
+<!-- Notifications -->    
+<div id="notification-error" class="alert alert-danger alert-dismissible" role="alert" hidden="true">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Error!</strong> <span id="notification-error-text"></span>
+</div>
+<div id="notification-warning" class="alert alert-warning alert-dismissible" role="alert" hidden="true">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> <span id="notification-warning-text"></span>
+</div>
+<div id="notification-success" class="alert alert-success alert-dismissible" role="alert" hidden="true">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Success!</strong> <span id="notification-success-text"></span>
+</div>
+<!-- End of Notifications -->    
 
-  <div class="menu navbar">
-    <div class="navbar-inner">
-      <ul class="nav">
-        <li><a href="#" >Home</a></li>
-        <li ><a href="#/slaves" >Slaves</a></li>
-        <li ><a href="#/login" >Login</a></li>
-        <li ><a href="#/logout" >Logout</a></li>
-      </ul>
-    </div>
-  </div>
-
-
-  <div id="page">
+<div class="row">
+    <div id="page" class="col-xs-12 col-md-10">
     <!--[if IE]>
         <object classid="clsid:25336920-03F9-11CF-8FD0-00AA00686F13" data="/templates/etc/loadingTemplate.html">
         <p>backup content</p>
@@ -48,11 +70,10 @@
         <p>Loading...</p>
         </object>
     <!--> <![endif]-->
-  </div>
- <div class="sidebar"></div>
-
-  <div id="footer"></div>
-</div> 
-
+    </div>
+    <div id="sidebar" class="col-xs-12 col-md-2">
+    </div>
+</div>
+</div>
 </body>
 </html>

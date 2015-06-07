@@ -13,10 +13,11 @@ define([
   var SlavesView = Backbone.View.extend({
     el: $("#page"),
     render: function(){
+      //$('#notification-error').hide();
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
-  loadingView = new LoadingView();
-  loadingView.render();
+      loadingView = new LoadingView();
+      loadingView.render();
       this.$el.html(slavesTemplate);
 
       var slave0 = new SlaveModel({name: 'Cross Domain', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/cross-domain'}); 
@@ -31,6 +32,9 @@ define([
         
         if (response.responseJSON.detail == "Authentication credentials were not provided.") {
                 console.log("Token error");
+                $('#notification-error-text').html("Authentication session expired. <a href=\"/#/login\">Relogin please</a>");
+                $('#notification-error').show();
+                return SlavesView;
         };
       });
       slavesCollection.on('success', function(){
