@@ -9,12 +9,9 @@ define([
     el: $("#sidebar"),
 
     render: function(){
-
-      var compiledTemplate = _.template( sidebarTemplate );
-    
-      $("#sidebar").html(compiledTemplate);
-    }
-
+        var compiledTemplate = _.template( sidebarTemplate );
+        $("#sidebar").html(compiledTemplate);
+    },
   });
 
   return SidebarView;

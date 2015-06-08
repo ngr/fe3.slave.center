@@ -18,7 +18,6 @@ define([
         slaves: this.collection.models,
         _: _ 
       };
-      console.log("underscored data");
       console.log(data); 
       var compiledTemplate = _.template( slavesListTemplate, data );
       $("#slaves-list").html( compiledTemplate ); 

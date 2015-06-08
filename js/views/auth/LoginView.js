@@ -2,9 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/etc/SidebarView',
   'text!templates/auth/loginFormTemplate.html'
-], function($, _, Backbone, SidebarView, loginFormTemplate){
+], function($, _, Backbone, loginFormTemplate){
 
     var LoginView = Backbone.View.extend({
       el: $("#page"),
@@ -33,16 +32,21 @@ define([
                 console.log(data);
                 localStorage.setItem('access_token', data.access_token);
                 localStorage.setItem('refresh_token', data.refresh_token);
+                // We make a global page reload in order to clean all Backbone history and so on...
+                window.location.href = '/';
             },
             error: function(){
                 console.log("error");
+                $('#notification-error-text').html("Authorization failed. Check your credentials.");
+                $('#notification-error').show();
+                // Think a way to use EventBus.
+                //EventBus.trigger("notification:error");
             }
        });
        return false;
       },
       
       render: function(){
-          //console.log("rendering");
           this.$el.html(loginFormTemplate);
       }
     });

@@ -10,12 +10,12 @@ define([
           
       initialize: function(){
         var self = this;
-        console.log("Logging out");
-        console.log(localStorage);
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         console.log("Logged out");
-        console.log(localStorage);
+//        console.log(localStorage);
+        // We make a global page reload in order to clean all Backbone history and so on...
+        window.location.href = '/';
       },
       render: function(){
           this.$el.html(logoutTemplate);

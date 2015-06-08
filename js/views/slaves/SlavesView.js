@@ -2,16 +2,43 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/etc/SidebarView',
   'views/etc/LoadingView',
   'models/slave/SlaveModel',
   'collections/slaves/SlavesCollection',
   'views/slaves/SlavesListView',
+  'views/forms/AssignSlaveFormView',
   'text!templates/slaves/slavesTemplate.html'
-], function($, _, Backbone, SidebarView, LoadingView, SlaveModel, SlavesCollection, SlavesListView, slavesTemplate){
+], function($, _, Backbone, LoadingView, SlaveModel, SlavesCollection, SlavesListView, AssignSlaveFormView, slavesTemplate){
 
   var SlavesView = Backbone.View.extend({
     el: $("#page"),
+    events: {
+        "click .btn-employ": "showEmploySlaveForm",
+      },
+    getSlaveId: function(data) {
+        // We assume that the last part of the button ID is the slave ID.
+        slaveId = data.currentTarget.id.substring(data.currentTarget.id.lastIndexOf('-')+1);
+        //console.log("Found"+slaveId);
+        return slaveId;
+    },
+    
+    showEmploySlaveForm: function(data) {
+        var slaveId = this.getSlaveId(data);
+        console.log("Employing "+slaveId);
+        var formDiv = '#assign-form-'+slaveId;
+        // Add IF state expanded then submit. Else show.
+        //$(formDiv).show();
+        data = {
+            'slave': slaveId,
+            'task': {id: 42, name: 'Some test task'},
+        };
+        var target = $(formDiv+' .well');
+        console.log(target);
+        var assignSlaveForm = new AssignSlaveFormView({
+            'el':target, data:data     });
+        assignSlaveForm.render();
+    },   
+    
     render: function(){
       //$('#notification-error').hide();
       $('.menu li').removeClass('active');
@@ -38,19 +65,13 @@ define([
         };
       });
       slavesCollection.on('success', function(){
-        //alert("success to view");
-        slavesListView.render(); 
-      });
-      
+      slavesListView.render(); 
+    });
+
+      // Note that we create the collection on initialize, but do not yet render.
+      // Once we fetch data, on success we render this sub-View.
       slavesCollection.fetch({async:true});
-      var slavesListView = new SlavesListView({ collection: slavesCollection}); 
-      
-//      slavesListView.render(); 
-
-      // add the sidebar 
-      var sidebarView = new SidebarView();
-      sidebarView.render();
-
+      var slavesListView = new SlavesListView({ collection: slavesCollection});
     }
   });
 

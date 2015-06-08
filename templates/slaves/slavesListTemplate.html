@@ -20,14 +20,21 @@
               </div>
               <div id="slave-actions-for-<%= slave.get("id") %>" class="row slave-actions">
                   <% if (slave.get("free")) { %>
-                  <div class="col-xs-4"><input class="btn btn-success btn-sm" type="button" value="Employ"></div>
+                  <div class="col-xs-4">
+                  <input id="btn-employ-<%= slave.get("id") %>" class="btn btn-success btn-sm btn-employ" type="button" value="Employ" data-toggle="collapse" data-target="#assign-form-<%= slave.get("id") %>" aria-expanded="false">
+                  </div>
                   <% } else { %>
                   <div class="col-xs-4"><input class="btn btn-danger btn-sm" type="button" value="Cancel"></div>
                   <% } %>
-                  <div class="col-xs-2">&nbsp;</div>
-                  <div class="col-xs-4"><input class="btn btn-primary btn-sm" type="button" value="Torture"></div>
+                  <div class="col-xs-6">&nbsp;</div>
               </div>
-              <div id="slave-employ-form-div-<%= slave.get("id") %>" class="row slave-employ-form-div"></div>
+              <div id="assign-form-<%= slave.get("id") %>" class="row collapse">
+                    <div class="col-xs-10 well">
+                      Form should go here!
+                    </div>
+              </div>
+
+              <!-- div id="slave-employ-form-div-< %= slave.get("id") %>" class="row slave-employ-form-div"></div -->
               
             </div>
         </td>
