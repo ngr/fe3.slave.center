@@ -1,0 +1,20 @@
+<table class="table table-striped">
+<tbody>
+  <% _.each(tasks, function(task){ %>
+    <tr>
+        
+        <td><a href="#<%= task.get("id") %>"><div><h3><%= task.get("name") %><h3></div></a></td>
+        <td>
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-2"><%= task.get("percent_completed") %></div>
+                <div class="col-xs-2"><%= task.get("active_assignments_count") %></div>
+                <div class="col-xs-3"><%= task.get("date_start") %></div>
+                <div class="col-xs-3"><%= task.get("date_finish") %></div>
+              </div>
+            </div>
+        </td>
+    </tr>
+  <% }); %>
+</tbody>
+</table>

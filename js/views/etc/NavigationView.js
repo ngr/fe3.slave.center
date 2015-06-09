@@ -16,6 +16,7 @@ define([
       var logged_links = {
         'Dashboard': '#',
         'Slaves': '#/slaves',
+        'Tasks': '#/tasks',
         'Logout': '#/logout'
       };
 

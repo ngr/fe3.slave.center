@@ -8,14 +8,16 @@ define([
   'views/etc/SidebarView',
   'views/home/HomeView',
   'views/slaves/SlavesView',
+  'views/tasks/TasksView',
   'views/auth/LoginView',
   'views/auth/LogoutView',
-], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, LoginView, LogoutView) {
+], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, TasksView, LoginView, LogoutView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
       'slaves': 'showSlaves',
+      'tasks': 'showTasks',
       'login' : 'showLogin',
       'logout' : 'showLogout',
       // Default
@@ -35,6 +37,12 @@ define([
 
         var slavesView = new SlavesView();
         slavesView.render();
+
+    });
+    
+    app_router.on('route:showTasks', function(){
+        var tasksView = new TasksView();
+        tasksView.render();
 
     });
 

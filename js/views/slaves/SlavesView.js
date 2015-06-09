@@ -5,10 +5,11 @@ define([
   'views/etc/LoadingView',
   'models/slave/SlaveModel',
   'collections/slaves/SlavesCollection',
+  'collections/tasks/TasksCollection',
   'views/slaves/SlavesListView',
   'views/forms/AssignSlaveFormView',
   'text!templates/slaves/slavesTemplate.html'
-], function($, _, Backbone, LoadingView, SlaveModel, SlavesCollection, SlavesListView, AssignSlaveFormView, slavesTemplate){
+], function($, _, Backbone, LoadingView, SlaveModel, SlavesCollection, TasksCollection, SlavesListView, AssignSlaveFormView, slavesTemplate){
 
   var SlavesView = Backbone.View.extend({
     el: $("#page"),
@@ -28,9 +29,14 @@ define([
         var formDiv = '#assign-form-'+slaveId;
         // Add IF state expanded then submit. Else show.
         //$(formDiv).show();
+        tasks = new TasksCollection({running:true, slave:9});
+        console.log(tasks);
+        tasks.fetch();
+        console.log(tasks.models);
         data = {
             'slave': slaveId,
-            'task': {id: 42, name: 'Some test task'},
+            'tasks': [{id: 42, name: 'Some test task'}],
+            //'task': tasks.models,
         };
         var target = $(formDiv+' .well');
         console.log(target);
@@ -47,14 +53,8 @@ define([
       loadingView.render();
       this.$el.html(slavesTemplate);
 
-      var slave0 = new SlaveModel({name: 'Cross Domain', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/cross-domain'}); 
-      var slave1 = new SlaveModel({name:'Infinite Scroll', url: 'https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/infinite-scroll'}); 
-
-      var aSlaves = [slave0, 
-                      slave1];
       var slavesCollection = new SlavesCollection();
       slavesCollection.on('err', function(response){
-//        alert("token error to view");
         console.log(response.responseJSON.detail);
         
         if (response.responseJSON.detail == "Authentication credentials were not provided.") {
