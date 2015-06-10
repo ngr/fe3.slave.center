@@ -15,8 +15,16 @@
                             <% if (slave.get("sex") == "m") { %><i class="fa fa-male"></i>
                             <% } else { %><i class="fa fa-female"></i><% } %>
                         </div>
-                        <div class="col-xs-1"><%= slave.get("age") %></div>
-                        <div class="col-xs-4"><%= slave.get("exp") %></div>
+                        <div class="col-xs-2">Age: <%= slave.get("age") %><br>Exp: <%= slave.get("exp") %></div>
+                        <div class="col-xs-3">
+                            <% if (slave.get("assignment") != null ) { %>
+                                <input id="assignment-of-<%= slave.get("id") %>" type="hidden" value="<%= slave.get("assignment").id %>">
+                                <span class="task-name"><%= slave.get("assignment").task_name %></span>
+                            <% } else { %>
+                                <input id="assignment-of-<%= slave.get("id") %>" type="hidden" value="">
+                                <span class="task-name"></span>
+                            <% } %>
+                        </div>
                         <div class="col-xs-2">
                             <% if (slave.get("free")) { %><i class="fa free-status fa-bed"></i>
                             <% } else { %>

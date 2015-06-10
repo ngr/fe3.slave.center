@@ -30,10 +30,36 @@ define([
         var target = $(''+' .well');
         $('#div-assign-form-'+slaveId).html("Releasing");
         $('#div-assign-form-'+slaveId).addClass('alert alert-warning');
-        $('#div-assign-form-'+slaveId).removeClass("collapse");
+        $('#div-assign-form-'+slaveId).removeClass("collapsed");
 
-        // We do not have the list of slave assignments, thus can't call release() action.
-        // Bug #103 https://github.com/ngr/sm_00/issues/103
+        var url = '/assignment/'+$("#assignment-of-"+slaveId).val()+"/";
+        jQuery.ajax({
+            type: 'PUT',
+            url: url,
+            dataType: 'json',
+            data: {"action":"release"},
+
+            success: function(data) {
+                console.log("released");
+                $('#btn-employ-'+slaveId).removeClass('hidden');
+                $('#btn-release-'+slaveId).addClass('hidden');
+                $('#div-assign-form-'+slaveId).addClass('collapsed');
+                $('#div-slave-'+slaveId+' .free-status').removeClass('fa-suitcase');
+                $('#div-slave-'+slaveId+' .free-status').addClass('fa-bed');
+                
+                $('#div-slave-'+slaveId+' .task-name').text('');
+                $('#assignment-of-'+slaveId).val('');
+                
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data.responseJSON.slave[0]);
+                notification = data.responseJSON.slave[0];
+                $('#div-assign-form-'+slaveId).addClass('alert alert-danger');
+                $('#div-assign-form-'+slaveId).html(notification);
+                $('#btn-assign-'+slaveId).addClass('hidden');                
+            }
+        });        
     },
     
     assignSlaveAction: function(data) {
@@ -51,9 +77,13 @@ define([
             success: function(data) {
                 $('#btn-release-'+slaveId).removeClass('hidden');
                 $('#btn-assign-'+slaveId).addClass('hidden');
-                $('#div-assign-form-'+slaveId).addClass('hidden');
+                $('#div-assign-form-'+slaveId).addClass('collapsed');
                 $('#div-slave-'+slaveId+' .free-status').removeClass('fa-bed');
                 $('#div-slave-'+slaveId+' .free-status').addClass('fa-suitcase');
+                
+                $('#div-slave-'+slaveId+' .task-name').text(data.responseJSON);
+                $('#assignment-of-'+slaveId).val('');
+
                 
             },
             error: function(data){
