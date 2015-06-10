@@ -3,42 +3,51 @@
   <% _.each(slaves, function(slave){ %>
     <tr>
         
-        <td><a href="#<%= slave.get("id") %>"><div><h3><%= slave.get("name") %><h3></div></a></td>
         <td>
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-2">
-                    <% if (slave.get("sex") == "m") { %><i class="fa fa-male"></i>
-                    <% } else { %><i class="fa fa-female"></i><% } %>
+        <div class="container">
+            <div id="div-slave-<%= slave.get("id") %>" class="row">
+                <div class="col-xs-4">
+                    <a href="#<%= slave.get("id") %>"><div><h4><%= slave.get("name") %><h4></div></a>
                 </div>
-                <div class="col-xs-2"><%= slave.get("age") %></div>
-                <div class="col-xs-4"><%= slave.get("exp") %></div>
-                <div class="col-xs-2">
-                    <% if (slave.get("free")) { %><i class="fa fa-bed"></i>
-                    <% } else { %><i class="fa fa-suitcase"></i><% } %>
-                </div>
-              </div>
-              <div id="slave-actions-for-<%= slave.get("id") %>" class="row slave-actions">
-                  <% if (slave.get("free")) { %>
-                  <div class="col-xs-4">
-                  <input id="btn-employ-<%= slave.get("id") %>" class="btn btn-success btn-sm btn-employ" type="button" value="Employ" data-toggle="collapse" data-target="#assign-form-<%= slave.get("id") %>" aria-expanded="false">
-                  </div>
-                  <% } else { %>
-                  <div class="col-xs-4"><input class="btn btn-danger btn-sm" type="button" value="Cancel"></div>
-                  <% } %>
-                  <div class="col-xs-6">&nbsp;</div>
-              </div>
-              <div id="assign-form-<%= slave.get("id") %>" class="row collapse">
-                    <div class="col-xs-10 well">
-                      Form should go here!
+                <div class="col-xs-8">
+                    <div class="row">
+                        <div class="col-xs-1">
+                            <% if (slave.get("sex") == "m") { %><i class="fa fa-male"></i>
+                            <% } else { %><i class="fa fa-female"></i><% } %>
+                        </div>
+                        <div class="col-xs-1"><%= slave.get("age") %></div>
+                        <div class="col-xs-4"><%= slave.get("exp") %></div>
+                        <div class="col-xs-2">
+                            <% if (slave.get("free")) { %><i class="fa free-status fa-bed"></i>
+                            <% } else { %>
+                                <i class="fa free-status fa-suitcase"></i>
+                            <% } %>
+                        </div>
                     </div>
-              </div>
-
-              <!-- div id="slave-employ-form-div-< %= slave.get("id") %>" class="row slave-employ-form-div"></div -->
-              
+                    <div id="slave-actions-for-<%= slave.get("id") %>" class="row slave-actions">
+                      <div class="col-xs-4">
+                      <% if (slave.get("free")) { %>
+                        <input id="btn-employ-<%= slave.get("id") %>" class="btn btn-success btn-sm btn-employ" type="button" value="Employ" data-toggle="collapse" data-target="#div-assign-form-<%= slave.get("id") %>" aria-expanded="false">
+                        <input id="btn-release-<%= slave.get("id") %>" class="btn btn-danger btn-sm btn-release hidden" type="button" value="Cancel">
+                      <% } else { %>
+                        <input id="btn-employ-<%= slave.get("id") %>" class="btn btn-success btn-sm btn-employ hidden" type="button" value="Employ" data-toggle="collapse" data-target="#div-assign-form-<%= slave.get("id") %>" aria-expanded="false">
+                        <input id="btn-release-<%= slave.get("id") %>" class="btn btn-danger btn-sm btn-release" type="button" value="Cancel">
+                      <% } %>
+                        <input id="btn-assign-<%= slave.get("id") %>" class="btn btn-warning btn-sm btn-assign hidden" type="button" value="Assign">
+                      <div class="col-xs-4">&nbsp;</div>
+                    </div>
+                </div>
+        </div>
+        <div id="div-assign-form-<%= slave.get("id") %>" class="row collapse assign-form">
+            <div class="col-xs-12 well">
+              Loading...
             </div>
+        </div>
+    </div>
         </td>
     </tr>
+
+
   <% }); %>
 </tbody>
 </table>

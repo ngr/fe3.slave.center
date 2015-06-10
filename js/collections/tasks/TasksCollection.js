@@ -7,7 +7,6 @@ define([
 
     var TasksCollection = Backbone.Collection.extend({
     model: TaskModel,
-//    url: '/tasks/',
     url: function(){
         r = '/tasks/?';
         if (this.options.running) {
@@ -28,17 +27,14 @@ define([
         self = this;
         options || (options = {});
         options.error = function() {
-            console.log("error");
+            console.log("Error fetching tasks collection");
             self.trigger('err', raw);
         };
         options.success = function() {
-            console.log("success");
+            console.log("Fetched tasks collection");
             self.trigger("success", this);
-            
         };
         raw = Backbone.Collection.prototype.fetch.call(this, options);
-//        console.log(raw.getAttr('responseJSON'));
-//        return raw['responseJSON'];
     },
   });
  

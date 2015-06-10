@@ -17,7 +17,7 @@ define([
             loadingView.render();
             this.$el.html(tasksTemplate);
 
-            var tasksCollection = new TasksCollection({running:true, slave:9});
+            var tasksCollection = new TasksCollection({running:true});
             tasksCollection.on('err', function(response){
             console.log(response.responseJSON.detail);
         

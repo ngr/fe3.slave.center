@@ -1,6 +1,9 @@
-    <form id="setTaskForm">
-      <input type="hidden" id="slaveIdHidden" name="slave" value="<%= slave %>">
-      <select id="availableTasks" name="task">
-        <option value="<%= task.id %>"><%= task.name %></option>
-      </select>
-    </form>
+<form id="frm-post-assignment-for-<%= slave %>">
+    <input type="hidden" name="slave" value="<%= slave %>">
+    <select name="task">
+    <% _.each(tasks, function(task){ %>
+        <%= task %>
+        <option value="<%= task.get("id") %>"><%= task.get("name") %>: <%= task.get("percent_completed") %>%</option>
+    <% }); %>
+    </select>
+</form>
