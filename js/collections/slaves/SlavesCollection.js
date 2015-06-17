@@ -10,7 +10,7 @@ define([
     url: '/slaves/',
 
     fetch: function(options){
-        console.log("Fetching slave");
+//        console.log("Fetching slave");
         self = this;
         options || (options = {});
         options.error = function() {
@@ -24,31 +24,13 @@ define([
         };
         
         raw = Backbone.Collection.prototype.fetch.call(this, options);
-        //console.log(raw.responseText);
-  
-//        if (raw) {
-  //      }
-    //    else {
-      //      if (jQuery.parseJSON(raw.responseText).detail == "Authentication credentials were not provided.") {
-        //        console.log("Token error");
-         //       this.trigger('token');
-           // }
-       // }
-        
-  //      raw.done( function(data) {
-    //        $.each(data, function(index, value) {
-      //        console.log(value);
-        //      that.push({name:"ben"});
-          //  });
-            //console.log(data);
-            //data.forEach(this.push(name:"ben"));
-        //});
-          //  this.push({name:"joe"});
+    },
+    changeFreeStatus: function(){
+//        console.log("Changed status of");
+//        console.log(this);
     },
     initialize: function(){
-        //this.fetch({async:false});
-        
-        //this.parse();
+        this.on( "change", this.changeFreeStatus);
     }
   });
  

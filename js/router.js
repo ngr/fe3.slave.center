@@ -16,52 +16,41 @@ define([
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
-      'slaves': 'showSlaves',
-      'tasks': 'showTasks',
-      'login' : 'showLogin',
-      'logout' : 'showLogout',
+      'slaves': 'slaves',
+      'tasks': 'tasks',
+      'login' : 'login',
+      'logout' : 'logout',
       // Default
-      '*actions': 'defaultAction'
-    }
+      '*actions': 'home'
+    },
+    loadView : function(view) {
+        if (this.view && this.view.unload) this.view.unload();
+//		this.view && 
+		this.view = view;
+        this.view.render();
+	},
+    slaves: function(){
+		this.loadView(new SlavesView());
+    },
+    tasks: function(){
+		this.loadView(new TasksView());
+    },
+    login: function(){
+		this.loadView(new LoginView());
+    },
+    logout: function(){
+		this.loadView(new LogoutView());
+    },
+    home: function(){
+		this.loadView(new HomeView());
+    },
   });
 
+  
   var initialize = function(){
 
     var app_router = new AppRouter;
-    
-    app_router.on('route:showSlaves', function(){
-   
-        // Call render on the module we loaded in via the dependency array
-      //loadingView = new LoadingView();
-      //loadingView.render();
-
-        var slavesView = new SlavesView();
-        slavesView.render();
-
-    });
-    
-    app_router.on('route:showTasks', function(){
-        var tasksView = new TasksView();
-        tasksView.render();
-
-    });
-
-    app_router.on('route:showLogin', function(){
-        var loginView = new LoginView();
-        loginView.render();
-    });   
-    
-    app_router.on('route:showLogout', function(){
-        var logoutView = new LogoutView();
-        logoutView.render();
-    });    
-
-    app_router.on('route:defaultAction', function (actions) {
-     
-       // We have no matching route, lets display the home page 
-        var homeView = new HomeView();
-        homeView.render();
-    });
+    console.log("New router initialized");
 
     // Unlike the above, we don't call render on these views as it will handle
     // the render call internally after it loads data. Further more we load it
@@ -73,7 +62,6 @@ define([
     var navigationView = new NavigationView();
     navigationView.render();
     
-//                _.extend(window.EventBus, Backbone.Events);
     Backbone.history.start();
   };
     // Clear notifications on change of active page.

@@ -1,0 +1,38 @@
+<div id="div-slave-<%= get("id") %>" class="row well <% if (get("even")) { %>div-slave-row-even<% }else{ %>div-slave-row-odd<% } %>">
+    <div class="col-xs-4 col-md-3">
+        <div class="col-xs-12 col-md-4">
+            <a href="#<%= get("id") %>"><div><h4>
+                <%= get("name") %>
+            </h4></div></a>
+        </div>
+        <div class="col-xs-12 col-md-8">
+            <strong>Sex:</strong> 
+                <% if (get("sex") == "m") { %><i class="fa fa-male"></i>
+                <% } else { %><i class="fa fa-female"></i><% } %><br>
+            <strong>Age:</strong> <%= get("age") %><br>
+            <strong>Exp:</strong> <%= get("exp") %>            
+            
+        </div>
+    </div>
+    <div class="col-xs-4 col-md-2">
+        <% if (get("free")) { %>
+            <input id="btn-employ-<%= get("id") %>" class="btn btn-success btn-sm btn-employ" type="button" value="Employ" data-toggle="collapse" data-target="#div-assign-form-<%= get("id") %>" aria-expanded="false">
+            <input id="btn-release-<%= get("id") %>" class="btn btn-danger btn-sm btn-release hidden" type="button" value="Cancel">
+        <% } else { %>
+            <input id="btn-employ-<%= get("id") %>" class="btn btn-success btn-sm btn-employ hidden" type="button" value="Employ" data-toggle="collapse" data-target="#div-assign-form-<%= get("id") %>" aria-expanded="false">
+            <input id="btn-release-<%= get("id") %>" class="btn btn-danger btn-sm btn-release" type="button" value="Cancel">
+        <% } %>
+        <input id="btn-assign-<%= get("id") %>" class="btn btn-warning btn-sm btn-assign hidden" type="button" value="Assign">
+    </div>
+    <div class="col-xs-4 col-md-7">
+            <% if (get("assignments").length != 0) { %>
+                <input id="assignment-of-<%= get("id") %>" type="hidden" value="<%= get("assignments")[0].id %>">
+                <div class="task-type task-type-<%= get("assignments")[0].task_type %> task-workflow-<%= get("assignments")[0].task_workflow %> img-circle"></div>
+                <span class="task-name"><%= get("assignments")[0].task_name %></span>
+
+            <% } %>
+    </div>
+    <div id="div-assign-form-<%= get("id") %>" class="col-xs-12 col-md-12 collapse assign-form">
+          Loading...
+    </div>
+</div>

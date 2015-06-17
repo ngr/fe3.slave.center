@@ -11,7 +11,12 @@ define([
 
     var TasksView = Backbone.View.extend({
         el: $("#page"),
-        
+        unload: function(){
+            console.log("Unloading TasksView");
+            this.undelegateEvents();
+            $(this).empty;
+            this.unbind();
+        },
         render: function(){
             loadingView = new LoadingView();
             loadingView.render();

@@ -1,0 +1,55 @@
+.task-type {
+    background: url("/img/tasks/types.png") no-repeat;
+    width: 50%;
+    border: 1px;
+}
+.task-type-Farming{
+    width: 60px; /* Icon width */
+    height: 60px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -120px;
+    background-size: 120px 420px;
+    
+}
+
+.task-type-Crafting{
+    width: 60px; /* Icon width */
+    height: 60px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -60px;
+    background-size: 120px 420px;
+    
+}
+
+.task-workflow-15{
+    width: 60px; /* Icon width */
+    height: 60px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    border: 1px;
+    border-bottom-color:red;
+
+    background-position: -60px -60px;
+    background-size: 120px 420px;
+    
+}
+
+
+
+/* For small screen */
+#slaves-list .div-slave-row-even {
+  background-color: #F1FFFF;
+}
+#slaves-list .div-slave-row-odd {
+  background-color: #F1F1FF;
+}
+
+#slaves-list .well {
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#slaves-list .col-xs-4 {
+    padding-left: 2px;
+    padding-right: 2px;
+}

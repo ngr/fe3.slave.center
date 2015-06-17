@@ -2,17 +2,51 @@ define([
   'jquery',
   'underscore',
   'backbone',
+//  'bootstrap',
   'views/etc/LoadingView',
   'models/slave/SlaveModel',
   'collections/slaves/SlavesCollection',
   'collections/tasks/TasksCollection',
   'views/slaves/SlavesListView',
   'views/forms/AssignSlaveFormView',
-  'text!templates/slaves/slavesTemplate.html'
-], function($, _, Backbone, LoadingView, SlaveModel, SlavesCollection, TasksCollection, SlavesListView, AssignSlaveFormView, slavesTemplate){
+  'text!templates/slaves/slavesTemplate.html',
+  'text!templates/slaves/slaveTemplate.html',
+
+], function($, _, Backbone, LoadingView, SlaveModel, SlavesCollection, TasksCollection, SlavesListView, AssignSlaveFormView, slavesTemplate, slaveTemplate){
+
 
   var SlavesView = Backbone.View.extend({
     el: $("#page"),
+    initialize: function(){
+        var currentView = this;
+
+        loadingView = new LoadingView();
+        this.slavesCollection = new SlavesCollection();
+        this.slavesListView = new SlavesListView({ collection: this.slavesCollection});
+
+        this.renderSlave = function(id) {
+            // Get updated element from Collection
+            slave = this.slavesCollection.get(id);
+            target = $('#div-slave-'+id);
+
+//            console.log("Rendering slave:");
+//            console.log(slave);
+            
+            // Delete the first and last lines of template (div tags) as we are pushing to the existing container.
+            slaveRendered = _.template( slaveTemplate, slave );
+            slaveRendered = slaveRendered.substring(slaveRendered.indexOf("\n") + 1);
+            slaveRendered = slaveRendered.substring(0, slaveRendered.lastIndexOf("\n"));
+            //console.log(slaveRendered);
+            target.html( slaveRendered );
+            // Switch ON buttons when finished rendering.
+        };
+    },
+    unload: function(){
+        console.log("Unloading SlavesView");
+        this.undelegateEvents();
+        $(this).empty;
+        this.unbind();
+    },
     events: {
         "click .btn-employ": "showEmploySlaveForm",
         "click .btn-assign": "assignSlaveAction",
@@ -24,10 +58,21 @@ define([
         //console.log("Found"+slaveId);
         return slaveId;
     },
+
+    offButtons: function(id) {
+        $("#div-slave-"+id+" .btn").attr("disabled", "disabled");
+    },
+    onButtons: function(id) {
+        console.log("ON buttons");
+//        console.log($("#div-slave-"+id+" .btn"));
+        $("#div-slave-"+id+" .btn").removeAttr("disabled");
+    },
     
     releaseSlaveAction: function(data) {
         var slaveId = this.getSlaveId(data);
-        var target = $(''+' .well');
+        var that = this;
+        this.offButtons(slaveId);
+        // Check if really busy?
         $('#div-assign-form-'+slaveId).html("Releasing");
         $('#div-assign-form-'+slaveId).addClass('alert alert-warning');
         $('#div-assign-form-'+slaveId).removeClass("collapsed");
@@ -41,15 +86,10 @@ define([
 
             success: function(data) {
                 console.log("released");
-                $('#btn-employ-'+slaveId).removeClass('hidden');
-                $('#btn-release-'+slaveId).addClass('hidden');
-                $('#div-assign-form-'+slaveId).addClass('collapsed');
-                $('#div-slave-'+slaveId+' .free-status').removeClass('fa-suitcase');
-                $('#div-slave-'+slaveId+' .free-status').addClass('fa-bed');
+                var updatedSlave = that.slavesCollection.get(slaveId);
+                updatedSlave.fetch();
                 
-                $('#div-slave-'+slaveId+' .task-name').text('');
-                $('#assignment-of-'+slaveId).val('');
-                
+                that.renderSlave(slaveId);
             },
             error: function(data){
                 console.log("error");
@@ -64,9 +104,11 @@ define([
     
     assignSlaveAction: function(data) {
         var slaveId = this.getSlaveId(data);
-        var target = $(''+' .well');
+        var target = $('#div-slave-'+slaveId);
+        var that = this;
+        // Temporary switch off buttons.
+        this.offButtons(slaveId);
 
-        
         var url = '/assignments/';
         jQuery.ajax({
             type: 'POST',
@@ -75,16 +117,12 @@ define([
             data: $('#frm-post-assignment-for-'+slaveId).serialize(),
 
             success: function(data) {
-                $('#btn-release-'+slaveId).removeClass('hidden');
-                $('#btn-assign-'+slaveId).addClass('hidden');
-                $('#div-assign-form-'+slaveId).addClass('collapsed');
-                $('#div-slave-'+slaveId+' .free-status').removeClass('fa-bed');
-                $('#div-slave-'+slaveId+' .free-status').addClass('fa-suitcase');
-                
-                $('#div-slave-'+slaveId+' .task-name').text(data.responseJSON);
-                $('#assignment-of-'+slaveId).val('');
+                var updatedSlave = that.slavesCollection.get(slaveId);
+                updatedSlave.fetch();
+                //console.log("updatedSlave");
+                //console.log(updatedSlave);
 
-                
+                that.renderSlave(slaveId);
             },
             error: function(data){
                 console.log("error");
@@ -99,19 +137,22 @@ define([
     
     showEmploySlaveForm: function(data) {
         var slaveId = this.getSlaveId(data);
-//        console.log("Employing "+slaveId);
-        // Close all simultaneous forms
-        // FIXME
-        
+        that = this;
+
+        // Temporary switch off buttons. On success drawing will return back.
+        this.offButtons(slaveId);
+
         // Start drawing the form
-        var formDiv = $('#div-assign-form-'+slaveId+' .well');
+        var formDiv = $('#div-assign-form-'+slaveId);
         // Add IF state expanded then submit. Else show.
         //$(formDiv).show();
         available_tasks = new TasksCollection({running:true, slave:slaveId});
-//        console.log(available_tasks);
+        console.log(available_tasks);
         available_tasks.fetch();
         refreshForm = function(){
             console.log("Drawing form with available tasks");
+            //$('#div-assign-form-'+slaveId).collapse();
+            $('#div-assign-form-'+slaveId).removeClass("collapse");
 
             // Check for zero amount of available tasks.
             if (available_tasks.models.length === 0){
@@ -121,12 +162,15 @@ define([
                 $('#btn-employ-'+slaveId).removeClass('hidden');
                 $('#btn-assign-'+slaveId).addClass('hidden');
                 return;
-            };
+            } 
 
             // Change buttons at the moment that all is OK.
             $('#btn-employ-'+slaveId).addClass('hidden');
             $('#btn-assign-'+slaveId).removeClass('hidden');
-            
+            // Return buttons
+            console.log(that);
+            that.onButtons(slaveId);
+
             // Create options to draw the form.
             data = {
                 'slave': slaveId,
@@ -142,15 +186,18 @@ define([
     },   
     
     render: function(){
+      var that = this;
+      
       //$('#notification-error').hide();
       $('.menu li').removeClass('active');
       $('.menu li a[href="'+window.location.hash+'"]').parent().addClass('active');
-      loadingView = new LoadingView();
+//      loadingView = new LoadingView();
       loadingView.render();
       this.$el.html(slavesTemplate);
-
-      var slavesCollection = new SlavesCollection();
-      slavesCollection.on('err', function(response){
+    
+    // We save collection to Globals as we shall use and update it from different form processors.
+//      window.slavesCollection = new SlavesCollection();
+      this.slavesCollection.on('err', function(response){
         console.log(response.responseJSON.detail);
         
         if (response.responseJSON.detail == "Authentication credentials were not provided.") {
@@ -160,15 +207,20 @@ define([
                 return SlavesView;
         };
       });
-      slavesCollection.on('success', function(){
-      slavesListView.render(); 
-    });
+      this.slavesCollection.on('success', function(){
+        that.slavesListView.render(); 
+      });
+      this.slavesCollection.on('change', function(event){
+//          console.log(event);
+          that.renderSlave(event.get("id"));
+//          slavesListView.render();
+      });
 
       // Note that we create the collection on initialize, but do not yet render.
       // Once we fetch data, on success we render this sub-View.
-      slavesCollection.fetch({async:true});
-      var slavesListView = new SlavesListView({ collection: slavesCollection});
-    }
+      this.slavesCollection.fetch({async:true});
+//      var slavesListView = new SlavesListView({ collection: window.slavesCollection});
+    },
   });
 
   return SlavesView;
