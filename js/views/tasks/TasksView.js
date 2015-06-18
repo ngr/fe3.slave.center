@@ -28,6 +28,7 @@ define([
             console.log(event.target);
             $(event.target).addClass('disabled');
             $(event.target).val('Loading');
+            
             data = {locations:{}, workflows:{}};
             available_locations = new LocationsCollection({region:2});
             available_locations.fetch();
@@ -45,6 +46,26 @@ define([
         processLocationChange: function(event){
             target_location = $('#location')[0].value;
             console.log(target_location);
+            // REQUEST AVAILABLE WORKFLOWS in Location
+            jQuery.ajax({
+                type: 'GET',
+                url: '/taskworkflows/?location='+target_location,
+                //dataType: 'json',
+                //data: {},
+
+                success: function(data) {
+                    console.log("Workflows");
+                    console.log(data);
+                },
+                error: function(){
+                    console.log("error");
+                    $('#notification-error-text').html("Authorization failed. Check your credentials.");
+                    $('#notification-error').show();
+                    // Think a way to use EventBus.
+                    //EventBus.trigger("notification:error");
+                }
+            });
+            $('#type').focus();
         },
         submitCreateTaskForm: function(event){
             event.preventDefault();
