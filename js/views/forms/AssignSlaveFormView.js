@@ -2,9 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/task/TaskModel',
+  //'models/task/TaskModel',
   'text!templates/forms/AssignSlaveFormTemplate.html'
-], function($, _, Backbone, TaskModel, AssignSlaveFormTemplate){
+], function($, _, Backbone, AssignSlaveFormTemplate){
 
     var assignSlaveForm = Backbone.View.extend( {
         el: '',

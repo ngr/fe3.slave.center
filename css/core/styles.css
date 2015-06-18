@@ -9,7 +9,6 @@
     display: inline-block; /* Display icon as inline block */
     background-position: 0px -120px;
     background-size: 120px 420px;
-    
 }
 
 .task-type-Crafting{
@@ -18,19 +17,28 @@
     display: inline-block; /* Display icon as inline block */
     background-position: 0px -60px;
     background-size: 120px 420px;
-    
 }
 
-.task-workflow-15{
+.task-type-Harvesting{
     width: 60px; /* Icon width */
     height: 60px; /* Icon height */
     display: inline-block; /* Display icon as inline block */
-    border: 1px;
-    border-bottom-color:red;
-
-    background-position: -60px -60px;
+    background-position: 0px -0px;
     background-size: 120px 420px;
-    
+}
+.task-type-Building{
+    width: 60px; /* Icon width */
+    height: 60px; /* Icon height */
+    display: inline-block; /* Display icon as inline block */
+    background-position: 0px -240px;
+    background-size: 120px 420px;
+}
+
+.task-workflow-15{
+    background-position: -60px -60px;
+}
+.task-workflow-19{
+    background-position: 0px -180px;
 }
 
 

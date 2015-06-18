@@ -1,0 +1,14 @@
+<form id="frm-create-task">
+  <select id="location" name="location">
+    <% _.each(locations, function(location){ %>
+        <option value="<%= location.get("id") %>"><%= location.get("name") %></option>
+    <% }); %>
+  </select>
+  <select id="type" name="type">
+    <% _.each(workflows, function(workflow){ %>
+        <option value="<%= workflow.get("id") %>"><%= workflow.get("name") %></option>
+    <% }); %>
+  </select>
+
+  <button type="submit" class="btn btn-block">Create Task</button>
+</form>
