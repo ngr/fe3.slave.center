@@ -1,16 +1,24 @@
-<!--  <div class="container"> -->
-    <form id="login-form">
-      <div class="panel panel-primary text-center">
-        <div class="panel-heading">
-          <h5>Logining</h5>
+<div class="container" style="width:600px">
+    <div class="panel panel-primary text-center">
+    <div class="panel-heading">
+      <h5>Logining</h5>
+    </div>
+
+    <div class="panel-body">
+      <form id="login-form" class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="username_input" class="control-label col-sm-2">Username:</label> 
+          <div class="col-sm-10">
+            <input type="text" id="username_input" class="form-control" placeholder="Enter username">
+          </div>
         </div>
-        <div class="panel-body">
-          Username: <input type="text" id="username_input"><br>
-          Password: <input type="password" id="password_input"><br>
+        <div class="form-group">
+          <label for="password_input" class="control-label col-sm-2">Password:</label> 
+          <div class="col-sm-10">
+            <input type="password" id="password_input" class="form-control" placeholder="Enter password">
+          </div>
         </div>
-        <div class="panel-footer">
-          <button type="submit" class="btn btn-success btn-block">Login</button>
-        </div>
-      </div>
-    </form>
-<!--  </div> -->
+        <button type="submit" class="btn btn-success btn-block">Submit</button>
+      </form>
+    </div>
+</div>
