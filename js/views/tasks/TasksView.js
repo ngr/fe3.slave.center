@@ -22,7 +22,7 @@ define([
         events: {
             "click #btn-create-task": "showCreateTaskForm",
             "submit #frm-create-task": "submitCreateTaskForm",
-            "change #location": "processLocationChange",
+            "change #txt-location": "processLocationChange",
         },
         showCreateTaskForm: function(event){
             console.log(event.target);
@@ -30,7 +30,7 @@ define([
             $(event.target).val('Loading');
             
             data = {locations:{}, workflows:{}};
-            available_locations = new LocationsCollection({region:2});
+            available_locations = new LocationsCollection({});
             available_locations.fetch();
             
             this.listenTo(available_locations, 'success', function(){
@@ -41,25 +41,37 @@ define([
                     data:data
                 });
                createTaskForm.render();
+               $('#frm-create-task #txt-type').addClass("hidden");
+               $('#frm-create-task #btn-submit').addClass("hidden");
             });
         },
         processLocationChange: function(event){
-            target_location = $('#location')[0].value;
+            target_location = $('#frm-create-task #txt-location')[0].value;
+            $('#frm-create-task #txt-type').html('');
+            $('#frm-create-task #hdn-owner').v;
             console.log(target_location);
             // REQUEST AVAILABLE WORKFLOWS in Location
             jQuery.ajax({
                 type: 'GET',
                 url: '/taskworkflows/?location='+target_location,
-                //dataType: 'json',
-                //data: {},
-
                 success: function(data) {
                     console.log("Workflows");
                     console.log(data);
+                    for (wf in data){
+                        $('#frm-create-task #txt-type').append("<option value=\""+data[wf].id+"\">"+data[wf].name+"</option>");
+                    };
+                    if (data.length != 0){
+                        $('#frm-create-task #txt-type').removeClass("hidden");
+                        $('#frm-create-task #txt-type').focus();
+                        $('#frm-create-task #btn-submit').removeClass("hidden");
+                    }
+                    else {
+                        $('#frm-create-task #txt-type').addClass("hidden");
+                    };
                 },
-                error: function(){
+                error: function(error){
                     console.log("error");
-                    $('#notification-error-text').html("Authorization failed. Check your credentials.");
+                    $('#notification-error-text').html(error[0]);
                     $('#notification-error').show();
                     // Think a way to use EventBus.
                     //EventBus.trigger("notification:error");
@@ -69,7 +81,25 @@ define([
         },
         submitCreateTaskForm: function(event){
             event.preventDefault();
-            console.log(event);            
+            console.log(event);
+            jQuery.ajax({
+                type: 'POST',
+                url: '/tasks/',
+                dataType: 'json',
+                data: $('#frm-create-task').serialize(),
+                success: function(data) {
+                    console.log("Created");
+                    console.log(data);
+                },
+                error: function(error){
+                    console.log("error");
+                    $('#notification-error-text').html(error[0]);
+                    $('#notification-error').show();
+                    // Think a way to use EventBus.
+                    //EventBus.trigger("notification:error");
+                }
+            });
+
         },
         render: function(){
             loadingView = new LoadingView();

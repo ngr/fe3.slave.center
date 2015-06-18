@@ -1,14 +1,17 @@
 <form id="frm-create-task">
-  <select id="location" name="location">
+<!-- This is temporary dummy solution. Owner is checked by API when creating tasks. -->
+  <input id="hdn-owner" type="hidden" name="owner" value="">
+<!-- End of temporary solution. :) -->
+  <select id="txt-location" name="location">
     <% _.each(locations, function(location){ %>
         <option value="<%= location.get("id") %>"><%= location.get("name") %></option>
     <% }); %>
   </select>
-  <select id="type" name="type">
+  <select id="txt-type" name="type">
     <% _.each(workflows, function(workflow){ %>
         <option value="<%= workflow.get("id") %>"><%= workflow.get("name") %></option>
     <% }); %>
   </select>
 
-  <button type="submit" class="btn btn-block">Create Task</button>
+  <input id="btn-submit" type="submit" class="btn btn-success"></input>
 </form>

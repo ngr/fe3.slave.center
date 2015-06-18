@@ -13,8 +13,8 @@ define([
   
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
     // Your server goes below
-//     options.url = 'http://aws00.grischenko.ru:8333' + options.url;
-     options.url = 'http://api.slave.center' + options.url;
+     options.url = 'http://aws00.grischenko.ru:8333' + options.url;
+//     options.url = 'http://api.slave.center' + options.url;
      options.dataType = 'json';
      options.beforeSend = function( xhr ) {
             xhr.setRequestHeader( "Authorization", "Bearer " + localStorage.getItem('access_token') );
