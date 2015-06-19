@@ -14,7 +14,13 @@ define([
                 tasks: this.collection.models,
                 _: _ 
             };
-            console.log(data); 
+            
+            // Format date
+            for (t in data.tasks) {
+                raw = data.tasks[t].get('date_finish');
+                data.tasks[t].set('date_finish', raw.substr(0, 10)+' at <b>'+raw.substr(11, 5)+'</b> (UTC)');
+            };
+
             var compiledTemplate = _.template( tasksListTemplate, data );
             $("#tasks-list").html( compiledTemplate ); 
         }

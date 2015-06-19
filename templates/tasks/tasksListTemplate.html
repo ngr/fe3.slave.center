@@ -1,18 +1,25 @@
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
+<thead>
+    <tr>
+        <th>Task</th>
+        <th>Completed</th>
+        <th>Workers</th>
+        <th>Estimated finish</th>
+    </tr>
+</thead>
 <tbody>
   <% _.each(tasks, function(task){ %>
     <tr>
         
         <td><a href="#<%= task.get("id") %>"><div><h3><%= task.get("name") %><h3></div></a></td>
         <td>
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-2"><%= task.get("percent_completed") %></div>
-                <div class="col-xs-2"><%= task.get("active_assignments_count") %></div>
-                <div class="col-xs-3"><%= task.get("date_start") %></div>
-                <div class="col-xs-3"><%= task.get("date_finish") %></div>
-              </div>
-            </div>
+            <%= task.get("percent_completed") %>
+        </td>
+        <td>
+            <%= task.get("active_assignments_count") %>
+        </td>
+        <td>
+            <%= task.get("date_finish") %>
         </td>
     </tr>
   <% }); %>

@@ -9,11 +9,14 @@ define([
     var createTaskForm = Backbone.View.extend( {
         el: '#create-form',
         initialize: function (options) {
-//            console.log(options.data);
+            console.log("CreateTaskFormView received options:");
+            console.log(options.data);
             this.template = _.template(CreateTaskFormTemplate, options.data);
          },
          render: function () {
             console.log("Rendering CreateTaskFormView");
+            console.log(this.template);
+
             this.$el.html(this.template); // this.$el is a jQuery wrapped el var
             return this;
          }

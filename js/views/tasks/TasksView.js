@@ -24,6 +24,9 @@ define([
             "submit #frm-create-task": "submitCreateTaskForm",
             "change #txt-location": "processLocationChange",
         },
+        resetCreateTaskForm: function(){
+            $('#create-form').html("<input id=\"btn-create-task\" type=\"button\" class=\"btn btn-success\" value=\"Create\">");
+        },
         showCreateTaskForm: function(event){
             console.log(event.target);
             $(event.target).addClass('disabled');
@@ -46,6 +49,7 @@ define([
             });
         },
         processLocationChange: function(event){
+            that = this;
             target_location = $('#frm-create-task #txt-location')[0].value;
             $('#frm-create-task #txt-type').html('');
             $('#frm-create-task #hdn-owner').v;
@@ -71,8 +75,10 @@ define([
                 },
                 error: function(error){
                     console.log("error");
+                    console.log(error);
                     $('#notification-error-text').html(error[0]);
                     $('#notification-error').show();
+                    that.resetCreateTaskForm();
                     // Think a way to use EventBus.
                     //EventBus.trigger("notification:error");
                 }
@@ -81,6 +87,7 @@ define([
         },
         submitCreateTaskForm: function(event){
             event.preventDefault();
+            that = this;
             console.log(event);
             jQuery.ajax({
                 type: 'POST',
@@ -89,14 +96,18 @@ define([
                 data: $('#frm-create-task').serialize(),
                 success: function(data) {
                     console.log("Created");
-                    console.log(data);
+                    //console.log(data);
+                    $('#notification-success-text').html("Task created");
+                    $('#notification-success').show();
+                    that.render();
                 },
                 error: function(error){
                     console.log("error");
-                    $('#notification-error-text').html(error[0]);
+                    console.log(error);
+
+                    $('#notification-error-text').html(error.responseJSON['error']);
                     $('#notification-error').show();
-                    // Think a way to use EventBus.
-                    //EventBus.trigger("notification:error");
+                    that.resetCreateTaskForm();
                 }
             });
 
