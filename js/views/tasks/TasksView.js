@@ -76,11 +76,8 @@ define([
                 error: function(error){
                     console.log("error");
                     console.log(error);
-                    $('#notification-error-text').html(error[0]);
-                    $('#notification-error').show();
+                    that.trigger("error",error[0]);
                     that.resetCreateTaskForm();
-                    // Think a way to use EventBus.
-                    //EventBus.trigger("notification:error");
                 }
             });
             $('#type').focus();
@@ -88,59 +85,97 @@ define([
         submitCreateTaskForm: function(event){
             event.preventDefault();
             that = this;
-            console.log(event);
-            jQuery.ajax({
-                type: 'POST',
-                url: '/tasks/',
-                dataType: 'json',
-                data: $('#frm-create-task').serialize(),
-                success: function(data) {
-                    console.log("Created");
-                    //console.log(data);
-                    $('#notification-success-text').html("Task created");
-                    $('#notification-success').show();
-                    that.render();
-                },
-                error: function(error){
-                    console.log("error");
-                    console.log(error);
-
-                    $('#notification-error-text').html(error.responseJSON['error']);
-                    $('#notification-error').show();
+            //console.log(event);
+            // Serialize new object data from form.
+            new_instance_data = {};
+            $("#frm-create-task").serializeArray().map(function(x){new_instance_data[x.name] = x.value;});
+            // Create a new instance in Collection.
+            new_instance = this.collection.create( new_instance_data, {
+                wait:true, 
+                success: function(event){
                     that.resetCreateTaskForm();
-                }
+                    that.showSuccess("New Task created");
+                    
+                    console.log(event);
+                },
+                error: function(event){
+                    that.resetCreateTaskForm();
+                },
             });
-
         },
         render: function(){
             loadingView = new LoadingView();
             loadingView.render();
+            that = this;
             this.$el.html(tasksTemplate);
-
-            var tasksCollection = new TasksCollection({running:true});
-            tasksCollection.on('err', function(response){
-                console.log(response.responseJSON.detail);
-            
-                if (response.responseJSON.detail == "Authentication credentials were not provided.") {
-                        console.log("Token error");
-                        $('#notification-error-text').html("Authentication session expired. <a href=\"/#/login\">Relogin please</a>");
-                        $('#notification-error').show();
-                        return TasksView;
-                };
-                }); // End of error
-        
-            tasksCollection.on('success', function(){
-                tasksListView.render(); 
-            });
 
             // Note that we create the collection on initialize, but do not yet render.
             // Once we fetch data, on success we render this sub-View.
-            tasksCollection.fetch({async:true});
-            var tasksListView = new TasksListView({ collection: tasksCollection});
+            this.collection.fetch({async:true});
+
+            this.collection.on('err', function(response){
+                console.log(response.responseJSON.detail);
+                that.trigger("error", responseJSON.detail);
+                return TasksView;
+            }); // End of error
+        
+            this.collection.on('success', function(){
+                that.tasksListView.render(); 
+            });
+        },
+        addOne: function(model){
+            //alert("added one");
+            console.log("Added one Task model to Collection:");
+            console.log(model);
+        },
+        syncOk: function(event){
+            //console.log("Successfully Synced with API.");
+            console.log(event);
+            that.tasksListView.render(); 
+        },
+        showSuccess: function(data){
+            // console.log(data);
+            alert = "<div class=\"alert alert-success alert-dismissible\" role=\"alert\">"+
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">"+
+                "<span aria-hidden=\"true\">&times;</span></button>"+
+                "<strong>Success!</strong> " + data + "</div>";
+            $('#notifications').append(alert);
+            window.setTimeout(function() {
+                $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove(); 
+                });
+
+            }, 2800);
+        },
+        showError: function(data){
+            // console.log(data);
+            alert = "<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">"+
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">"+
+                "<span aria-hidden=\"true\">&times;</span></button>"+
+                "<strong>Error!</strong> " + data + "</div>";
+            $('#notifications').append(alert);
+            window.setTimeout(function() {
+                $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove(); 
+                });
+
+            }, 9000);
+
         },
         initialize: function(){
-            console.log();
+            that = this;
+            this.collection = new TasksCollection({running:true});
+            this.tasksListView = new TasksListView({ collection: this.collection});
             
+        // Event listeners
+            this.listenTo(this.collection, 'add', this.addOne);
+            this.listenTo(this.collection, 'sync', this.syncOk);
+            this.listenTo(this.collection, 'error', this.showError);
+            this.listenTo(this, 'error', this.showError); // Catch Global error events.
+            // Listen to Ajax error globally
+            $( document ).ajaxError(function(event, request) {
+                that.trigger("error", request.responseJSON.error[0]);
+            });
         },
         
   });

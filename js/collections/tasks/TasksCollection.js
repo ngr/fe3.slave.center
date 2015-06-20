@@ -8,12 +8,14 @@ define([
     var TasksCollection = Backbone.Collection.extend({
     model: TaskModel,
     url: function(){
-        r = '/tasks/?';
+        r = '/tasks/';
         if (this.options.running) {
+            if (r.substr(r.length-1) === '/'){ r+='?'} else {r+='&'};
             r += 'running=true';
         };
         if (this.options.slave) {
-            r += '&slave=' + this.options.slave;
+            if (r.substr(r.length-1) === '/'){ r+='?'} else {r+='&'};
+            r += 'slave=' + this.options.slave;
         };
         console.log("Requesting API for: " + r);
       return r;
@@ -21,7 +23,6 @@ define([
     initialize: function(options){
         this.options = options;
     },
-
     fetch: function(options){
         console.log("Fetching tasks");
         self = this;

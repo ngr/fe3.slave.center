@@ -3,7 +3,9 @@ define([
   'backbone'
 ], function(_, Backbone) {
   
-  var TaskModel = Backbone.Model.extend({});
+  var TaskModel = Backbone.Model.extend({
+      ulr: '/tasks/',
+  });
 
   return TaskModel;
 
