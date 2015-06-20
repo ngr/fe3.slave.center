@@ -61,3 +61,23 @@
     padding-left: 2px;
     padding-right: 2px;
 }
+
+
+
+
+
+
+/*
+////////////////////////
+//    TEST SECTION    //
+////////////////////////
+*/
+.login-menu {
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.container-local {
+  padding-right: 15px;
+  padding-left: 15px;
+}
