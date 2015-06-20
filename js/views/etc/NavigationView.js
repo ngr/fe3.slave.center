@@ -17,6 +17,7 @@ define([
         'Dashboard': '#',
         'Slaves': '#/slaves',
         'Tasks': '#/tasks',
+        'Locations': '#/locations',
         'Logout': '#/logout'
       };
 

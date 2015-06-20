@@ -3,7 +3,9 @@ define([
   'backbone'
 ], function(_, Backbone) {
   
-  var LocationModel = Backbone.Model.extend({});
+  var LocationModel = Backbone.Model.extend({
+      ulr: '/locations/',
+  });
 
   return LocationModel;
 

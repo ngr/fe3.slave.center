@@ -9,15 +9,17 @@ define([
   'views/home/HomeView',
   'views/slaves/SlavesView',
   'views/tasks/TasksView',
+  'views/locations/LocationsView',
   'views/auth/LoginView',
   'views/auth/LogoutView',
-], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, TasksView, LoginView, LogoutView) {
+], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, TasksView, LocationsView, LoginView, LogoutView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
       'slaves': 'slaves',
       'tasks': 'tasks',
+      'locations': 'locations',
       'login' : 'login',
       'logout' : 'logout',
       // Default
@@ -34,6 +36,9 @@ define([
     },
     tasks: function(){
 		this.loadView(new TasksView());
+    },
+    locations: function(){
+		this.loadView(new LocationsView());
     },
     login: function(){
 		this.loadView(new LoginView());
@@ -64,16 +69,6 @@ define([
     
     Backbone.history.start();
   };
-    // Clear notifications on change of active page.
-    Backbone.history.on("all", function (route, router) {
-        $('#notification-error-text').html("");
-        $('#notification-error').hide();
-        $('#notification-warning-text').html("");
-        $('#notification-warning').hide();
-        $('#notification-success-text').html("");
-        $('#notification-success').hide();
-      });
-
   return { 
     initialize: initialize
   };
