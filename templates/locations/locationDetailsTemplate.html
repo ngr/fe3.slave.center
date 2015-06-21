@@ -1,2 +1,98 @@
-<h2>Location: <%= location.get("name") %> </h2>
-More details go here.
+<div class="row text-center">
+
+    <div class="col-sm-4">
+        <h2>Location: <%= location.get("name") %> </h2>
+        <div class="well well-sm location-image">
+            <div class="location-image-hq-roof">
+            </div>
+            <div class="location-image-hq-walls">
+            </div>
+        </div>
+        <div>
+            <ul class="text-muted text-left">
+                <li>HQ</li>
+                <li>HQ</li>
+            </ul>
+        </div>
+    </div>
+  
+    <div class="col-sm-8">
+        <div class="well">
+            <dl class="dl-horizontal">
+            <dt>Area</dt>
+            <dd>100</dd>
+            <dt>Free</dt>
+            <dd>20</dd>
+            </dl>
+			
+            <hr>
+			
+            <h3>Tasks <sup><span class="badge">7</span></sup></h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>task</th>
+                        <th>Completed</th>
+                        <th>Workers</th>
+                        <th>Estimated finish</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Crafting: Bamboo Block</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2015-06-22 at 14:53 (UTC)</td>
+                    </tr>
+                    <tr>
+                        <td>Crafting: Bamboo shovel</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2015-06-22 at 14:53 (UTC)</td>
+                    </tr>
+                    <tr>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <hr>
+            
+            <h3>Items <sup><span class="badge">3</span></sup></h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>item</th>
+                        <th>quantity</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>bamboo</td>
+                        <td>39</td>
+                        <td><button type="button" class="btn btn-primary">sending</button></td>
+                        <td><button type="button" class="btn btn-warning">selling</button></td>
+                    </tr>
+                    <tr>
+                        <td>Sand</td>
+                        <td>5</td>
+                        <td><button type="button" class="btn btn-primary">sending</button></td>
+                        <td><button type="button" class="btn btn-warning">selling</button></td>
+                    </tr>
+                    <tr>
+                        <td>Rice</td>
+                        <td>15</td>
+                        <td><button type="button" class="btn btn-primary">sending</button></td>
+                        <td><button type="button" class="btn btn-warning">selling</button></td>
+                    </tr>
+                </tbody>
+            </table>
+		</div>
+    </div>
+	
+</div>
