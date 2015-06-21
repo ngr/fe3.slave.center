@@ -11,7 +11,7 @@
   <% _.each(locations, function(location){ %>
     <tr>
         
-        <td><a href="#<%= location.get("id") %>"><div><h3><%= location.get("name") %><h3></div></a></td>
+        <td><a href="#locations/<%= location.get("id") %>"><div><h3><%= location.get("name") %><h3></div></a></td>
         <td>
             <%= location.get("design") %>
         </td>

@@ -10,9 +10,10 @@ define([
   'views/slaves/SlavesView',
   'views/tasks/TasksView',
   'views/locations/LocationsView',
+  'views/locations/LocationDetailsView',
   'views/auth/LoginView',
   'views/auth/LogoutView',
-], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, TasksView, LocationsView, LoginView, LogoutView) {
+], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, TasksView, LocationsView, LocationDetailsView, LoginView, LogoutView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
@@ -20,6 +21,7 @@ define([
       'slaves': 'slaves',
       'tasks': 'tasks',
       'locations': 'locations',
+      'locations/:query': 'locationDetails',
       'login' : 'login',
       'logout' : 'logout',
       // Default
@@ -39,7 +41,11 @@ define([
     },
     locations: function(){
 		this.loadView(new LocationsView());
-    },
+    },   
+    locationDetails: function(query){
+        console.log(query);
+		this.loadView(new LocationDetailsView({id:query}));
+    },   
     login: function(){
 		this.loadView(new LoginView());
     },
