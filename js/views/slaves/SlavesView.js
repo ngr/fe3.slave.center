@@ -17,30 +17,6 @@ define([
 
   var SlavesView = Backbone.View.extend({
     el: $("#page"),
-    initialize: function(){
-        var currentView = this;
-
-        loadingView = new LoadingView();
-        this.slavesCollection = new SlavesCollection();
-        this.slavesListView = new SlavesListView({ collection: this.slavesCollection});
-
-        this.renderSlave = function(id) {
-            // Get updated element from Collection
-            slave = this.slavesCollection.get(id);
-            target = $('#div-slave-'+id);
-
-//            console.log("Rendering slave:");
-//            console.log(slave);
-            
-            // Delete the first and last lines of template (div tags) as we are pushing to the existing container.
-            slaveRendered = _.template( slaveTemplate, slave );
-            slaveRendered = slaveRendered.substring(slaveRendered.indexOf("\n") + 1);
-            slaveRendered = slaveRendered.substring(0, slaveRendered.lastIndexOf("\n"));
-            //console.log(slaveRendered);
-            target.html( slaveRendered );
-            // Switch ON buttons when finished rendering.
-        };
-    },
     unload: function(){
         console.log("Unloading SlavesView");
         this.undelegateEvents();
@@ -202,9 +178,9 @@ define([
         
         if (response.responseJSON.detail == "Authentication credentials were not provided.") {
                 console.log("Token error");
-                $('#notification-error-text').html("Authentication session expired. <a href=\"/#/login\">Relogin please</a>");
-                $('#notification-error').show();
-                return SlavesView;
+                that.trigger("error", "Authentication session expired. <a href=\"/#/login\">Relogin please</a>");
+                $(that.el).html("");
+                return;
         };
       });
       this.slavesCollection.on('success', function(){
@@ -221,6 +197,65 @@ define([
       this.slavesCollection.fetch({async:true});
 //      var slavesListView = new SlavesListView({ collection: window.slavesCollection});
     },
+    showSuccess: function(data){
+        // console.log(data);
+        alert = "<div class=\"alert alert-success alert-dismissible\" role=\"alert\">"+
+            "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">"+
+            "<span aria-hidden=\"true\">&times;</span></button>"+
+            "<strong>Success!</strong> " + data + "</div>";
+        $('#notifications').append(alert);
+        window.setTimeout(function() {
+            $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 2800);
+    },
+    showError: function(data){
+        // console.log(data);
+        alert = "<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">"+
+            "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">"+
+            "<span aria-hidden=\"true\">&times;</span></button>"+
+            "<strong>Error!</strong> " + data + "</div>";
+        $('#notifications').append(alert);
+        window.setTimeout(function() {
+            $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 9000);
+    },
+    initialize: function(){
+        var that = this;
+
+        loadingView = new LoadingView();
+        this.slavesCollection = new SlavesCollection();
+        this.slavesListView = new SlavesListView({ collection: this.slavesCollection});
+
+        this.listenTo(this, 'error', this.showError); // Catch Global error events.
+        // Listen to Ajax error globally
+        $( document ).ajaxError(function(event, request) {
+            if (request.responseJSON.error){
+                that.trigger("error", request.responseJSON.error[0]);
+            };
+        });        
+        
+        this.renderSlave = function(id) {
+            // Get updated element from Collection
+            slave = this.slavesCollection.get(id);
+            target = $('#div-slave-'+id);
+
+//            console.log("Rendering slave:");
+//            console.log(slave);
+            
+            // Delete the first and last lines of template (div tags) as we are pushing to the existing container.
+            slaveRendered = _.template( slaveTemplate, slave );
+            slaveRendered = slaveRendered.substring(slaveRendered.indexOf("\n") + 1);
+            slaveRendered = slaveRendered.substring(0, slaveRendered.lastIndexOf("\n"));
+            //console.log(slaveRendered);
+            target.html( slaveRendered );
+            // Switch ON buttons when finished rendering.
+        };
+    },
+
   });
 
   return SlavesView;

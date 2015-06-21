@@ -30,8 +30,12 @@ define([
 
             this.collection.on('err', function(response){
                 console.log(response.responseJSON.detail);
-                that.trigger("error", responseJSON.detail);
-                return LocationsView;
+                if (response.responseJSON.detail == "Authentication credentials were not provided.") {
+                        console.log("Token error");
+                        that.trigger("error", "Authentication session expired. <a href=\"/#/login\">Relogin please</a>");
+                        $(that.el).html("");
+                        return;
+                };
             }); // End of error
         
             this.collection.on('success', function(){
@@ -82,11 +86,13 @@ define([
         // Event listeners
             this.listenTo(this.collection, 'add', this.addOne);
             this.listenTo(this.collection, 'sync', this.syncOk);
-            this.listenTo(this.collection, 'error', this.showError);
+//            this.listenTo(this.collection, 'error', this.showError);
             this.listenTo(this, 'error', this.showError); // Catch Global error events.
             // Listen to Ajax error globally
             $( document ).ajaxError(function(event, request) {
-                that.trigger("error", request.responseJSON.error[0]);
+                if (request.responseJSON.error){
+                    that.trigger("error", request.responseJSON.error[0]);
+                };
             });
         },
   });
