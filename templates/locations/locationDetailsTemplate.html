@@ -1,95 +1,47 @@
 <div class="row text-center">
 
     <div class="col-sm-4">
-        <h2>Location: <%= location.get("name") %> </h2>
+        <h2><%= location.get("name") %></h2>
         <div class="well well-sm location-image">
             <div class="location-image-hq-roof">
             </div>
             <div class="location-image-hq-walls">
             </div>
         </div>
-        <div>
-            <ul class="text-muted text-left">
-                <li>HQ</li>
-                <li>HQ</li>
-            </ul>
+        <div class="text-muted text-left">
+                <%= location.get("type") %>: <%= location.get("design") %><br>
+                <%= location.get("free_area") %> m<sup>2</sup> free
         </div>
     </div>
   
     <div class="col-sm-8">
         <div class="well">
-            <dl class="dl-horizontal">
-            <dt>Area</dt>
-            <dd>100</dd>
-            <dt>Free</dt>
-            <dd>20</dd>
-            </dl>
-			
+            <h3>Tasks <sup><span id="num_of_tasks" class="badge"></span></sup></h3>
+            <!-- The template for these Tasks rendering moved here: templates/tasks/tasksBriefListTemplate.html -->
+            <div id="tasks-list"></div>
+            
             <hr>
-			
-            <h3>Tasks <sup><span class="badge">7</span></sup></h3>
+            <!-- Be ready to move this to some other file. -->
+            <h3>Items <sup><span class="badge"><%= location.get("items").length %></span></sup></h3>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>task</th>
-                        <th>Completed</th>
-                        <th>Workers</th>
-                        <th>Estimated finish</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Crafting: Bamboo Block</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>2015-06-22 at 14:53 (UTC)</td>
-                    </tr>
-                    <tr>
-                        <td>Crafting: Bamboo shovel</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>2015-06-22 at 14:53 (UTC)</td>
-                    </tr>
-                    <tr>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <hr>
-            
-            <h3>Items <sup><span class="badge">3</span></sup></h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>item</th>
-                        <th>quantity</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
+                    <% _.each(location.get("items"), function(item){ %>
                     <tr>
-                        <td>bamboo</td>
-                        <td>39</td>
-                        <td><button type="button" class="btn btn-primary">sending</button></td>
-                        <td><button type="button" class="btn btn-warning">selling</button></td>
+                        <td><%= item.name %></td>
+                        <td><%= item.amount %></td>
+                        <td><button type="button" class="btn btn-primary">Move</button></td>
+                        <td><button type="button" class="btn btn-warning">Sell</button></td>
                     </tr>
-                    <tr>
-                        <td>Sand</td>
-                        <td>5</td>
-                        <td><button type="button" class="btn btn-primary">sending</button></td>
-                        <td><button type="button" class="btn btn-warning">selling</button></td>
-                    </tr>
-                    <tr>
-                        <td>Rice</td>
-                        <td>15</td>
-                        <td><button type="button" class="btn btn-primary">sending</button></td>
-                        <td><button type="button" class="btn btn-warning">selling</button></td>
-                    </tr>
+                    <% }); %>
+
                 </tbody>
             </table>
 		</div>

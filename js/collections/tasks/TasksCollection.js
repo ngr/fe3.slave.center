@@ -17,6 +17,10 @@ define([
             if (r.substr(r.length-1) === '/'){ r+='?'} else {r+='&'};
             r += 'slave=' + this.options.slave;
         };
+        if (this.options.location) {
+            if (r.substr(r.length-1) === '/'){ r+='?'} else {r+='&'};
+            r += 'location=' + this.options.location;
+        };
         console.log("Requesting API for: " + r);
       return r;
     },

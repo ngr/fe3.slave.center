@@ -3,9 +3,11 @@ define([
   'underscore',
   'backbone',
   'views/etc/LoadingView',
+  'views/tasks/TasksListView',
   'models/location/LocationModel',
-  'text!templates/locations/locationDetailsTemplate.html'
-], function($, _, Backbone, LoadingView, LocationModel, locationDetailsTemplate){
+  'collections/tasks/TasksCollection',
+  'text!templates/locations/locationDetailsTemplate.html',
+], function($, _, Backbone, LoadingView, TasksListView, LocationModel, TasksCollection, locationDetailsTemplate){
 
     var LocationDetailsView = Backbone.View.extend({
         el: $("#page"),
@@ -16,22 +18,38 @@ define([
             this.unbind();
         },
         render: function(){
-            loadingView = new LoadingView();
-            loadingView.render();
             that = this;
+            this.loadingView.render();
             console.log("Rendering");
             console.log(this.model);
-            
-            this.model.fetch();
-            this.model.on("success", function(){
-                console.log("Fetched");
+
+            this.model.fetch({async:true});            
+            this.listenTo(this.model, "success", function(){
+                console.log("Location Details fetched");
                 var data = {
                     location: that.model,
                     _: _ 
                 };
                 var compiledTemplate = _.template( locationDetailsTemplate, data );
                 $(that.el).html( compiledTemplate );
+                // We start fetching tasks only after main ajax suceeded.
+                $('#tasks-list').html("Loading...");
+                that.showTasks();
             });
+        },
+        showTasks: function(){
+            that = this;
+            // We fetch and render tasks.
+            this.tasks.fetch({async:true});
+            
+            this.listenTo(this.tasks, 'success', function(){
+                console.log("Tasks fetched");
+                console.log(that.tasks);
+                that.tasksListView.render();
+                // Change the badge manually
+                $('#num_of_tasks').text(this.tasks.length);
+            });
+
         },
         showSuccess: function(data){
             // console.log(data);
@@ -63,6 +81,10 @@ define([
             that = this;
             console.log(context);
             this.model = new LocationModel({'id': this.id});
+            this.tasks = new TasksCollection({'running':true, 'location': this.id});
+            //this.all_tasks = new TasksCollection({'location': this.id});
+            this.tasksListView = new TasksListView({ collection: this.tasks, template_name: 'tasksBriefList' });
+            this.loadingView = new LoadingView();
             
             this.listenTo(this, 'error', this.showError); // Catch Global error events.
             // Listen to Ajax error globally

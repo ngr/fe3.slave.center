@@ -4,11 +4,14 @@ define([
   'backbone',
   'models/task/TaskModel',
   'collections/tasks/TasksCollection',
-  'text!templates/tasks/tasksListTemplate.html'
+  'text!templates/tasks/tasksListTemplate.html',
+  'text!templates/tasks/tasksBriefListTemplate.html',
 
-], function($, _, Backbone, TaskModel, TasksCollection, tasksListTemplate){
+], function($, _, Backbone, TaskModel, TasksCollection, tasksListTemplate, tasksBriefListTemplate){
     var TasksListView = Backbone.View.extend({
         el: $("#tasks-list"),
+        tasksList: tasksListTemplate,
+        tasksBriefList: tasksBriefListTemplate,
         render: function(){
             var data = {
                 tasks: this.collection.models,
@@ -23,9 +26,13 @@ define([
                 };
             };
 
-            var compiledTemplate = _.template( tasksListTemplate, data );
+            var compiledTemplate = _.template( this.template, data );
             $("#tasks-list").html( compiledTemplate ); 
-        }
+        },
+        initialize: function(options){
+            this.template = this[options.template_name];
+        },
+        
     });
     return TasksListView;
 });
