@@ -1,0 +1,27 @@
+<table class="table">
+<thead>
+    <tr>
+        <th>Task</th>
+        <th>%</th>
+        <th><i class="fa fa-users"></i></th>
+        <th><i class="fa fa-clock-o"></i></th>
+    </tr>
+</thead>
+<tbody>
+  <% _.each(tasks, function(task){ %>
+    <tr>
+        
+        <td><a href="#<%= task.get("id") %>"><div><h3><%= task.get("name") %><h3></div></a></td>
+        <td>
+            <%= task.get("percent_completed") %>
+        </td>
+        <td>
+            <%= task.get("active_assignments_count") %>
+        </td>
+        <td>
+            <%= task.get("date_finish") %>
+        </td>
+    </tr>
+  <% }); %>
+</tbody>
+</table>
