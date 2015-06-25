@@ -8,17 +8,19 @@ define([
   'views/etc/SidebarView',
   'views/home/HomeView',
   'views/slaves/SlavesView',
+  'views/slaves/SlaveDetailsView',
   'views/tasks/TasksView',
   'views/locations/LocationsView',
   'views/locations/LocationDetailsView',
   'views/auth/LoginView',
   'views/auth/LogoutView',
-], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, TasksView, LocationsView, LocationDetailsView, LoginView, LogoutView) {
+], function($, _, Backbone, LoadingView, NavigationView, SidebarView, HomeView, SlavesView, SlaveDetailsView, TasksView, LocationsView, LocationDetailsView, LoginView, LogoutView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Define some URL routes
       'slaves': 'slaves',
+      'slaves/:query': 'slaveDetails',
       'tasks': 'tasks',
       'locations': 'locations',
       'locations/:query': 'locationDetails',
@@ -36,6 +38,10 @@ define([
     slaves: function(){
 		this.loadView(new SlavesView());
     },
+    slaveDetails: function(query){
+        console.log(query);
+		this.loadView(new SlaveDetailsView({id:query}));
+    },   
     tasks: function(){
 		this.loadView(new TasksView());
     },

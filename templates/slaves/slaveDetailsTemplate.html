@@ -1,0 +1,54 @@
+<div class="row text-center">
+
+    <div class="col-sm-4">
+        <h2><%= slave.get("name") %></h2>
+        <div class="well well-sm">
+            <img width="150" height="150" src="" alt="PORTRAIT">
+        </div>
+        <div class="text-muted text-left">
+                Age: <%= slave.get("age") %><br>
+                Race: <%= slave.get("race") %><br>
+                Experience: <%= slave.get("exp") %><br>
+                <hr>
+                Int: <%= slave.get("intelligence") %><br>
+                Str: <%= slave.get("strength") %><br>
+                Agl: <%= slave.get("agility") %><br>
+                Chr: <%= slave.get("charisma") %><br>
+        </div>
+    </div>
+  
+    <div class="col-sm-8">
+        <div class="well">
+            <% if (slave.get("assignments").length !=0) { %>
+                <h3>Busy:
+                    <a><%= slave.get("assignments")[0].task_name %></a>
+                        <div class="task-type task-type-<%= slave.get("assignments")[0].task_type %> task-workflow-<%= slave.get("assignments")[0].task_workflow %> img-circle"></div>
+                </h3>
+            <% } else { %>
+                <h3>Slave is free</h3>
+            <% } %>
+            <hr>
+            <h3>Skills</h3>
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th class="text-center">Skill</th>
+                        <th class="text-center">Level</th>
+                        <th class="text-center">Exp<sup><span id="total_exp" class="badge"><%= slave.get("exp") %></span></sup></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% _.each(slave.get("skills"), function(skill){ %>
+                    <tr>
+                        <td><%= skill.skill %></td>
+                        <td class="text-center"><%= skill.level %></td>
+                        <td class="text-center"><%= skill.exp %></td>
+                    </tr>
+                    <% }); %>
+
+                </tbody>
+            </table>
+		</div>
+    </div>
+	
+</div>

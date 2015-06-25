@@ -25,7 +25,7 @@ define([
                     data.tasks[t].set('date_finish', raw.substr(0, 10)+' at <b>'+raw.substr(11, 5)+'</b> (UTC)');
                 };
             };
-
+            //console.log(data);
             var compiledTemplate = _.template( this.template, data );
             $("#tasks-list").html( compiledTemplate ); 
         },

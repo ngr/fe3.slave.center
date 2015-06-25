@@ -124,17 +124,17 @@ define([
             }); // End of error
         
             this.collection.on('success', function(){
+                console.log("Rendering fetched data");
                 that.tasksListView.render(); 
             });
         },
         addOne: function(model){
-            //alert("added one");
-            console.log("Added one Task model to Collection:");
-            console.log(model);
+            console.log("Added one Task model to Collection: "+model.id);
+            //console.log(model);
         },
         syncOk: function(event){
-            //console.log("Successfully Synced with API.");
-            console.log(event);
+            console.log("Successfully Synced with API.");
+            //console.log(event);
             that.tasksListView.render(); 
         },
         showSuccess: function(data){
@@ -169,12 +169,12 @@ define([
         initialize: function(){
             that = this;
             this.collection = new TasksCollection({running:true});
-            this.tasksListView = new TasksListView({ collection: this.collection});
+            this.tasksListView = new TasksListView({ collection: this.collection, template_name: 'tasksList'});
             
         // Event listeners
+            //this.listenTo(this.collection, 'sync', this.syncOk);
+            this.listenTo(this.collection, 'error', this.showError);
             this.listenTo(this.collection, 'add', this.addOne);
-            this.listenTo(this.collection, 'sync', this.syncOk);
-//            this.listenTo(this.collection, 'error', this.showError);
             this.listenTo(this, 'error', this.showError); // Catch Global error events.
             // Listen to Ajax error globally
             $( document ).ajaxError(function(event, request) {
