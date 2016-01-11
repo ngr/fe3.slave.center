@@ -30,6 +30,17 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="js/libs/bootstrap/bootstrap-min.js"></script>
     <!-- ##### END OF BOOTSTRAP ##### -->    
+	
+	<!-- KD added 11.01.2015 -->	
+	<script>	
+	$(document).ready(function() {
+		$("#navigation-ul").click(function() {
+			$("#myNavbar").removeClass("in");
+			$("#myNavbar").attr("aria-expanded", false);
+		});
+	}); 
+	</script>
+	<!-- KD end -->
 </head>
 <body>
 <nav class="navbar navbar-default  navbar-fixed-top">
@@ -47,7 +58,7 @@
         </ul>
     </div>
  </div>
-</nav>
+ </nav>
 
 <!-- Notifications -->   
 <br><br><br>
@@ -71,5 +82,6 @@
         </div>
 	</div>
 </div>
+
 </body>
 </html>
